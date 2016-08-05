@@ -17,5 +17,10 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "rutezangada-clientengine": "^0.5.2",
+    "jquery-sortable": "^0.9.13",
+    "semantic": "semantic-ui#^2.2.2"
+  }
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>demo #1</title>
+    <link href="../bower_components/semantic/dist/semantic.min.css" type="text/css" rel="stylesheet">
+    <script src="../bower_components/rutezangada-clientengine/dist/RZClientEngine-standalone.min.js"></script>
+    <script src="../bower_components/semantic/dist/semantic.min.js"></script>
+    <script src="../bower_components/jquery-sortable/source/js/jquery-sortable-min.js"></script>
+    <style>
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute !important;
+            opacity: 1;
+            z-index: 2000;
+            cursor: move !important;
+        }
+
+        .item.dragged {
+            background: greenyellow !important;
+            cursor: move !important;
+        }
+
+        .tab-design-container .placeholder {
+            border: none;
+            background: greenyellow;
+            width: 3px;
+        }
+
+
+        .ui.vertical.menu .placeholder{
+            height: 40px;
+            width: 100%;
+        }
+
+        .item.draggable {
+            cursor: move !important;
+        }
+
+
+
+
+        .editing-tab-toolbox {
+            margin-right: -10px;
+            margin-left: 20px;
+            display: none;
+        }
+
+        .item.active .editing-tab-toolbox{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+<div class="ui container">
+    <div class="ui padded grid">
+        <div class="one column row">
+            <div class="column">
+                <!--BAGACERASTARTSHERE-->
+
+
+                <div id="hstackContainer" class="ui flat segment tab-design-container">
+                </div>
+
+                <!--BAGACERAENDSHERE-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    var num = 0;
+
+
+    $("#addTab").click(function () {
+        var html = '';
+        html += '<div id="*" class="draggable item ">';
+        html +="text *";
+        html +='</div>';
+        num++;
+        var id = "tab" + num.toString();
+        $(html.replace(/\*/g, id)).insertBefore("#addnewTab");
+
+    });
+
+
+
+    $("#tabs").sortable({
+        containerSelector: "div.menu",
+        itemSelector: "div.item",
+        placeholder: '<div class="placeholder"></div>',
+        delay: 300,
+        vertical: true
+    });
+
+</script>
+</html>
+</div>
+
+
+</html>
