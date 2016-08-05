@@ -1,0 +1,21 @@
+{
+  "name": "rutezangada-stackpanelplugin",
+  "description": "generic stackpanel plugin",
+  "main": "index.js",
+  "authors": [
+    "Anderson Norberto Santos"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "stackpanel",
+    "dnd"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
