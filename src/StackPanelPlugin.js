@@ -3,15 +3,20 @@
  */
 rz.plugins.StackPanelPlugin = function(params){
     var helpers = {
-        defaultitemRenderer:function(data,sender){
-            var sb = new StringBuilder();
-            sb.appendFormat('<div id="{0}_item_{1}" class="draggable item">{2}</div>',
-                sender.params.baseID,
-                generateRandomID(),
-                data
-            );
-            return sb.toString();
-        },
+        defaultitemRenderer:{
+            render: function(data,sender){
+                var sb = new StringBuilder();
+                sb.appendFormat('<div id="{0}_item_{1}" class="{3}">{2}</div>',
+                    sender.params.baseID,
+                    generateRandomID(),
+                    data,
+                    sender.params.stackItemClass
+                );
+                return sb.toString();
+            },
+            initialize:undefined
+        }
+        ,
         defaultEventHandlers: {
             afterRender:undefined,
             beforeRender:undefined,
@@ -27,7 +32,15 @@ rz.plugins.StackPanelPlugin = function(params){
             target:"div .rutezangada-stack-panel-container",
             baseID:generateRandomID(),
             itemRenderer: helpers.defaultitemRenderer,
-            eventHandlers: helpers.defaultEventHandlers
+            eventHandlers: helpers.defaultEventHandlers,
+            stackItemClass: "draggable item",
+            sortParams:{
+                containerSelector: "div.menu",
+                itemSelector: "div.item",
+                placeholder: '<div class="placeholder"></div>',
+                delay: 300,
+                vertical: true
+            }
         };
         $this.params = $.extend(true, {}, defaultParams, params);
         render();
@@ -51,15 +64,67 @@ rz.plugins.StackPanelPlugin = function(params){
         raiseEvent("buildingContent");
         sb.appendFormat('</div>');
         $(params.target).html(sb.toString());
+
+        var p = params.sortParams;
+        p.vertical = (params.orientation=="vertical");
+
+        $("#" + params.baseID).sortable(p);
         raiseEvent("afterRender");
+
     };
 
-    this.addItem = function(itemData,afterRenderAction){
-        var html = $this.params.itemRenderer(itemData,$this);
+    var resolveItemRenderer = function(r){
+        if(r===undefined){
+            return  $this.params.itemRenderer;
+        }
+        else{
+            if(typeof(r)=="string"){
+                //return registered-items-renderer[r]
+                throw "not implemented yet"
+            }
+            else{
+                return r;
+            }
+        }
+    };
+
+    var plotItem = function(el, pos){
+        if(pos===undefined){
+            el.appendTo("#" + $this.params.baseID);
+        }
+        else{
+            var refItem = $("#" + $this.params.baseID).children()[pos];
+            if(refItem !==undefined){
+                el.insertBefore(refItem);
+            }
+            else{
+                el.appendTo("#" + $this.params.baseID);
+            }
+        }
+    };
+
+    this.addItem = function(itemData,customrender){
+        var itemRenderer = resolveItemRenderer(customrender);
+        var html = itemRenderer.render(itemData,$this);
         var el = $(html);
-        el.appendTo("#" + $this.params.baseID);
-        if(afterRenderAction) afterRenderAction($this,{newElement: el});
+        plotItem(el);
+        if(itemRenderer.initialize) itemRenderer.initialize(itemData,$this,el);
     };
 
+    this.insertItem = function(itemData,pos,customrender){
+        var itemRenderer = resolveItemRenderer(customrender);
+        var html = itemRenderer.render(itemData,$this);
+        var el = $(html);
+        plotItem(el,pos);
+        if(itemRenderer.initialize) itemRenderer.initialize(itemData,$this,el);
+    };
+
+    this.removeItem = function(selector){
+        $("#" + $this.params.baseID).children(selector).detach();
+    };
+
+    this.removeItemAt = function(pos){
+        $($("#" + $this.params.baseID).children()[pos]).detach();
+    };
     initialize();
 };

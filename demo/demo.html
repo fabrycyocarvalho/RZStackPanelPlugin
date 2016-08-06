@@ -64,8 +64,31 @@
                 <!--BAGACERASTARTSHERE-->
 
 
-                <div id="hstackContainer" class="ui flat segment tab-design-container">
+                <div id="hstackContainer" class="ui flat segment tab-design-container"></div>
+                <div id="vstackContainer" class="ui flat segment tab-design-container"></div>
+
+                <div class="ui form">
+                    <div class="field">
+                        <label>Console</label>
+                        <textarea id="consoleTa"></textarea>
+                    </div>
                 </div>
+                <br>
+                <button id="addVItem" class="ui button">Executar</button>
+                <div class="ui info message">
+                    <div class="header">
+                        Instruções
+                    </div>
+                    <ul class="list">
+                        <li>horizontal stack panel: hinstance</li>
+                        <li>horizontal stack panel: vinstance</li>
+                        <li>addItem: instance.addItem(value,[itemrenderer])</li>
+                        <li>insertItem: instance.insertItem(value,pos,[itemrenderer])</li>
+                        <li>removeItem: instance.removeItem(itemSelector)</li>
+                        <li>removeItemAt: instance.removeItemAt(pos)</li>
+                    </ul>
+                </div>
+
 
                 <!--BAGACERAENDSHERE-->
             </div>
@@ -76,16 +99,32 @@
 
 </body>
 <script>
-    var hparams = {target:"#hstackContainer"};
+    //vertical
+    var vparams = {target:"#vstackContainer"};
+    var vinstance = new rz.plugins.StackPanelPlugin(vparams);
+    vinstance.addItem("Item 1");
+    vinstance.addItem("Item 2");
+    vinstance.addItem("Item 3");
+    vinstance.addItem("Item 4");
+    vinstance.addItem("Item 5");
+    vinstance.addItem("Item 6");
+
+    //horizontal:
+    var hparams = {target:"#hstackContainer",orientation:"horizontal"};
     var hinstance = new rz.plugins.StackPanelPlugin(hparams);
-    hinstance.addItem("Novo item");
+    hinstance.addItem("Item 1");
+    hinstance.addItem("Item 2");
+    hinstance.addItem("Item 3");
+    hinstance.addItem("Item 4");
+    hinstance.addItem("Item 5",{
+        render:function(data){
+            return '<div class="item"><h1>*</h1></div>'.replace("*",data);
+        }
+    });
 
-    // sb.appendFormat('	<div id="addnewTab">');
-    // sb.appendFormat('		<a id="addTab" class="item">');
-    // sb.appendFormat('			<i data-ref="*" data-action="cancel" class="plus grey link icon"></i> Add new item');
-    // sb.appendFormat('        </a>');
-    // sb.appendFormat('    </div>');
-
+    $("#addVItem").click(function(){
+        eval($("#consoleTa").val());
+    });
 </script>
 </html>
 </div>
