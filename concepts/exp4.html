@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"
+            integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+
+    <style>
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ol.example li.placeholder {
+            position: relative;
+            /** More li styles **/
+        }
+
+        ol.example li.placeholder:before {
+            position: absolute;
+            /** Define arrowhead **/
+        }
+
+        li {
+            border: solid 1px;
+            padding: 5px;
+        }
+        li.container{
+            border: dotted 1px;
+        }
+    </style>
+
+</head>
+<body>
+<ol class='example'>
+    <li>Primeiro</li>
+    <li>Segundo</li>
+    <li>Terceiro</li>
+    <li class="container">
+        <ol>
+            <li>Quarto</li>
+            <li>Quinto</li>
+            <li>Sexto</li>
+        </ol>
+    </li>
+    <li class="container">
+        <ol>
+            <li>Sétimo</li>
+            <li>Oitavo</li>
+            <li>Nono</li>
+        </ol>
+        <ol>
+            <li>Décimo</li>
+            <li>Décimo primeiro</li>
+            <li>Décimo segundo</li>
+        </ol>
+    </li>
+</ol>
+
+</body>
+<script src="https://johnny.github.io/jquery-sortable/js/jquery-sortable-min.js"></script>
+<script>
+    $(function () {
+        $("ol.example").sortable();
+    });
+</script>
+</html>

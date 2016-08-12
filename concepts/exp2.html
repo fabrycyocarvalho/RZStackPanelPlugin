@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experience #2</title>
+    <style>
+        [draggable] {
+            user-select: none;
+        }
+
+        body {
+            background-color: #fff;
+            color: #303;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        li {
+            border: 2px solid #000;
+            list-style-type: none;
+            margin: 2px;
+            padding: 5px;
+        }
+
+        ul {
+            margin: auto;
+            text-align: center;
+            width: 25%;
+        }
+
+        ul.vertical li{
+            display: inline;
+        }
+    </style>
+    <!--Dragabiilityytytytytytyty-->
+    <style>
+        body { font-family: sans-serif; }
+
+        .container {
+            padding: 10px;
+            border: 2px solid #F90;
+            height: 200px;
+        }
+
+        .draggable {
+            width: 140px;
+            height: 140px;
+            background: #F90;
+            border-radius: 10px;
+            margin: 0 10px 10px 0;
+            float: left;
+        }
+        .draggable.is-pointer-down {
+            background: #09F;
+            z-index: 2; /* above other draggies */
+        }
+        .draggable.is-dragging { opacity: 0.7; }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://npmcdn.com/draggabilly@2.1.1/dist/draggabilly.pkgd.js"></script>
+</head>
+<body>
+<h1>Draggabilly - containment with jQuery</h1>
+<div class="container">
+    <div class="draggable">A</div>
+    <div class="draggable">B</div>
+    <div class="draggable">C</div>
+</div>
+
+<br>
+<br>
+<ul id="p1" class="vertical">
+    <li id="e4" draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Apples</li>
+    <li id="e5" draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Oranges</li>
+    <li id="e6" draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Bananas</li>
+    <li id="e7" draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Strawberries</li>
+</ul>
+
+</body>
+<script>
+    var source;
+
+    function isbefore(a, b) {
+        if (a.parentNode == b.parentNode) { //parentNome é o container (UL)
+            for (var cur = a; cur; cur = cur.previousSibling) {
+                if (cur === b) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function dragenter(e) {
+        e.preventDefault();
+        if (isbefore(source, e.target)) {
+            e.target.parentNode.insertBefore(source, e.target);
+        }
+        else {
+            e.target.parentNode.insertBefore(source, e.target.nextSibling);
+        }
+    }
+
+    function dragstart(e) {
+        e.dataTransfer.setData('text/plain', 'anything'); /*FF ONLY*/
+        source = e.target;
+        e.dataTransfer.effectAllowed = 'move';
+    }
+</script>
+
+<script>
+    var $draggables = $('.draggable').draggabilly({
+        // contain to parent element
+        containment: true
+
+    });
+    $draggable.on( 'dragEnd',function(e){
+        alert(e);
+    } );
+</script>
+</html>

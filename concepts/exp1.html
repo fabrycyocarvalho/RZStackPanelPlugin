@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experience #1</title>
+    <style>
+        [draggable] {
+            user-select: none;
+        }
+
+        body {
+            background-color: #fff;
+            color: #303;
+            font-family: sans-serif;
+            text-align: center;
+        }
+
+        li {
+            border: 2px solid #000;
+            list-style-type: none;
+            margin: 2px;
+            padding: 5px;
+        }
+
+        ul {
+            margin: auto;
+            text-align: center;
+            width: 25%;
+        }
+
+        ul.vertical li{
+            display: inline;
+        }
+    </style>
+</head>
+<body>
+<p>exemplo simples de ordenação de itens usando d&d</p>
+<ul>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Apples</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Oranges</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Bananas</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Strawberries</li>
+</ul>
+<br>
+<br>
+<ul class="vertical">
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Apples</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Oranges</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Bananas</li>
+    <li draggable="true" ondragenter="dragenter(event)" ondragstart="dragstart(event)">Strawberries</li>
+</ul>
+
+</body>
+<script>
+    var source;
+
+    function isbefore(a, b) {
+        if (a.parentNode == b.parentNode) {
+            for (var cur = a; cur; cur = cur.previousSibling) {
+                if (cur === b) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function dragenter(e) {
+        e.preventDefault();
+        if (isbefore(source, e.target)) {
+            e.target.parentNode.insertBefore(source, e.target);
+        }
+        else {
+            e.target.parentNode.insertBefore(source, e.target.nextSibling);
+        }
+    }
+
+    function dragstart(e) {
+        e.dataTransfer.setData('text/plain', 'anything'); /*FF ONLY*/
+        source = e.target;
+        e.dataTransfer.effectAllowed = 'move';
+    }
+</script>
+</html>

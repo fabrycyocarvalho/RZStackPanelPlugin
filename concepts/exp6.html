@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Experience #6</title>
+    <link href="../bower_components/semantic/dist/semantic.min.css" type="text/css" rel="stylesheet">
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/semantic/dist/semantic.min.js"></script>
+    <script src="../bower_components/jquery-sortable/source/js/jquery-sortable-min.js"></script>
+    <style>
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute !important;
+            opacity: 1;
+            z-index: 2000;
+            cursor: move !important;
+        }
+
+        .item.dragged {
+            background: greenyellow !important;
+            cursor: move !important;
+            /*margin-left: -100px;*/
+        }
+
+        .tab-design-container .placeholder {
+            border: none;
+            background: greenyellow;
+            width: 3px;
+        }
+
+        .item.draggable {
+            cursor: move !important;
+        }
+
+
+
+
+        .editing-tab-toolbox {
+            margin-right: -10px;
+            margin-left: 20px;
+            display: none;
+        }
+
+        .item.active .editing-tab-toolbox{
+            display: block;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="ui container">
+    <div class="ui padded grid">
+        <div class="one column row">
+            <div class="column">
+                <!--BAGACERASTARTSHERE-->
+
+
+                <div class="ui flat segment tab-design-container">
+                    <div id="tabs" class="ui tabular menu">
+                        <div id="addnewTab">
+                            <a id="addTab" class="item">
+                                <i data-ref="*" data-action="cancel" class="plus grey link icon"></i> Add new tab
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--BAGACERAENDSHERE-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+    var num = 0;
+
+
+
+    var __________CRIAR_NOVO_ITEM_ATIVO = function(){
+        var criarAtivo = false;
+        var quant = $("#tabs").children(".draggable.item.tab-item").length;
+        return (quant==0) || criarAtivo;
+    };
+
+    $("#addTab").click(function () {
+        var html = '';
+
+        if(__________CRIAR_NOVO_ITEM_ATIVO()){
+            $(".item.draggable").removeClass("active");
+            html += '<div id="*" class="draggable active item ">';
+        }
+        else{
+            html += '<div id="*" class="draggable item ">';
+        }
+
+        html += '	<div class="ui transparent icon input">';
+        html += '	<input data-ref="*"  type="text" placeholder="informe o título">';
+        html += '     <i data-ref="*" data-action="save" style="right: 23px" class="checkmark link purple icon"></i>';
+        html += '     <i data-ref="*" data-action="cancel" class="delete grey link icon"></i>';
+        html += '	</div>';
+        html += '</div>';
+
+
+
+
+        num++;
+        var id = "tab" + num.toString();
+        $(html.replace(/\*/g, id)).insertBefore("#addnewTab");
+        $("#" + id).on("mousedown", changeTab);
+        $("#" + id + " input").focus();
+
+        //botões de adicionar e cancelar nova tab
+        $("#" + id + " .ui.icon.input i").click(function (e) {
+            var action = $(e.currentTarget).data("action");
+            var elid = $(e.currentTarget).data("ref");
+            doNewtabAction(action, elid);
+        });
+
+        //vincular ENTER E ESC ao input de adicionar nova tab
+        $("#" + id + " input").on("keyup", function (e) {
+            var ref = $(e.currentTarget).data("ref");
+            if (e.keyCode == 27) {
+                doNewtabAction("cancel", ref)
+            }
+            else if (e.keyCode == 13) {
+                doNewtabAction("save", ref)
+            }
+        });
+
+    });
+
+    function doNewtabAction(action, ref) {
+        if (action == "save") {
+            var text = $("#" + ref + " input").val();
+            if (text !== "") {
+                var html = '';
+                if(__________CRIAR_NOVO_ITEM_ATIVO()){
+                    html +='<div id="*" class="draggable active item tab-item">'.replace('*', ref + "_item");
+                }
+                else{
+                    html +='<div id="*" class="draggable item tab-item">'.replace('*', ref + "_item");
+                }
+
+                html +=text;
+                html +=' <div class="editing-tab-toolbox">';
+                html += '<i title="edit tab" class="ui edit link icon"></i>';
+                html += '<i title="delete tab" class="ui delete link icon"></i>';
+                html +=' </div>';
+                html +='</div>';
+
+
+                $("#" + ref).replaceWith(html);
+                $("#" + ref + "_item").on("mousedown", changeTab);
+            }
+        }
+        else if (action == "cancel") {
+            $("#" + ref).detach();
+        }
+    }
+
+
+    function changeTab(e) {
+        $(".item.draggable").removeClass("active");
+        $(e.currentTarget).addClass("active");
+    }
+
+
+    $("#tabs").sortable({
+        containerSelector: "div.menu",
+        itemSelector: "div.item",
+        placeholder: '<div class="placeholder"></div>',
+        delay: 300,
+        vertical: false
+    });
+
+</script>
+</html>
+</div>
+
+
+</html>
