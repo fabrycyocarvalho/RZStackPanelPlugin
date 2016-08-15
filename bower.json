@@ -16,7 +16,9 @@
     "node_modules",
     "bower_components",
     "test",
-    "tests"
+    "tests",
+    "concepts",
+    "src"
   ],
   "devDependencies": {
     "rutezangada-clientengine": "^0.5.2",
