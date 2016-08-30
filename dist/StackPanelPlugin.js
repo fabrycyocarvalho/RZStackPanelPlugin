@@ -35,7 +35,7 @@ rz.plugins.StackPanelPlugin = function(params){
             eventHandlers: helpers.defaultEventHandlers,
             stackItemClass: "draggable item",
             sortParams:{
-                containerSelector: "div.menu",
+                containerSelector: "div.tab-container",
                 itemSelector: "div.item",
                 placeholder: '<div class="placeholder"></div>',
                 delay: 300,
@@ -60,7 +60,7 @@ rz.plugins.StackPanelPlugin = function(params){
         var params = $this.params;
         var sb = new StringBuilder();
         raiseEvent("beforeRender");
-        sb.appendFormat('<div id="{0}" class="{1}">',params.baseID,resolveContainerClass());
+        sb.appendFormat('<div id="{0}" class="{1} tab-container">',params.baseID,resolveContainerClass());
         raiseEvent("buildingContent");
         sb.appendFormat('</div>');
         $(params.target).html(sb.toString());

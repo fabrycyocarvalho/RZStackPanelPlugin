@@ -35,11 +35,24 @@ rz.plugins.StackPanelPlugin = function(params){
             eventHandlers: helpers.defaultEventHandlers,
             stackItemClass: "draggable item",
             sortParams:{
-                containerSelector: "div.menu",
+                group: params.target.replace("#",""),
+                containerSelector: "div.tab-container",
                 itemSelector: "div.item",
                 placeholder: '<div class="placeholder"></div>',
                 delay: 300,
-                vertical: true
+                vertical: true,
+                //testando
+                // isValidTarget: function ($item) {
+                //     var $parent = $item.offsetParent();
+                //     //console.warn("$item",$item.hasClass("sub-container"), "container",!container.el.hasClass("sub-container"));
+                //     return ($item.hasClass("sub-container") && !$parent.hasClass("sub-container")) || !$item.hasClass("sub-container");
+                // }
+                onDragStart: function ($item, container) {
+                    $item.css({height: $item.outerHeight(),width: $item.outerWidth()});
+                    $item.addClass(container.group.options.draggedClass);
+                    $("body").addClass(container.group.options.bodyClass);
+                    console.warn("Is sub-container", $item.hasClass("sub-container"));
+                }
             }
         };
         $this.params = $.extend(true, {}, defaultParams, params);
@@ -60,7 +73,7 @@ rz.plugins.StackPanelPlugin = function(params){
         var params = $this.params;
         var sb = new StringBuilder();
         raiseEvent("beforeRender");
-        sb.appendFormat('<div id="{0}" class="{1}">',params.baseID,resolveContainerClass());
+        sb.appendFormat('<div id="{0}" class="{1} tab-container">',params.baseID,resolveContainerClass());
         raiseEvent("buildingContent");
         sb.appendFormat('</div>');
         $(params.target).html(sb.toString());
