@@ -27,7 +27,7 @@ rz.plugins.StackPanelPlugin = function(params){
     var initialize = function(){
         var defaultParams = {
             orientation:"vertical",
-            verticalContainerStyle:"ui vertical menu",
+            verticalContainerStyle:"ui vertical fluid menu",
             horizontalContainerStyle:"ui menu",
             target:"div .rutezangada-stack-panel-container",
             baseID:generateRandomID(),
@@ -41,17 +41,19 @@ rz.plugins.StackPanelPlugin = function(params){
                 placeholder: '<div class="placeholder"></div>',
                 delay: 300,
                 vertical: true,
+
+
                 //testando
-                // isValidTarget: function ($item) {
-                //     var $parent = $item.offsetParent();
-                //     //console.warn("$item",$item.hasClass("sub-container"), "container",!container.el.hasClass("sub-container"));
-                //     return ($item.hasClass("sub-container") && !$parent.hasClass("sub-container")) || !$item.hasClass("sub-container");
-                // }
+                isValidTarget: function ($item,container) {
+                    //console.log(container.target);
+                    return !($this.movingContainer && container.target.hasClass("subgroup"));
+                },
+
                 onDragStart: function ($item, container) {
                     $item.css({height: $item.outerHeight(),width: $item.outerWidth()});
                     $item.addClass(container.group.options.draggedClass);
                     $("body").addClass(container.group.options.bodyClass);
-                    console.warn("Is sub-container", $item.hasClass("sub-container"));
+                    $this.movingContainer = $item.hasClass("sub-container");
                 }
             }
         };

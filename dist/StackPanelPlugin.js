@@ -27,7 +27,7 @@ rz.plugins.StackPanelPlugin = function(params){
     var initialize = function(){
         var defaultParams = {
             orientation:"vertical",
-            verticalContainerStyle:"ui vertical menu",
+            verticalContainerStyle:"ui vertical fluid menu",
             horizontalContainerStyle:"ui menu",
             target:"div .rutezangada-stack-panel-container",
             baseID:generateRandomID(),
@@ -35,11 +35,26 @@ rz.plugins.StackPanelPlugin = function(params){
             eventHandlers: helpers.defaultEventHandlers,
             stackItemClass: "draggable item",
             sortParams:{
+                group: params.target.replace("#",""),
                 containerSelector: "div.tab-container",
                 itemSelector: "div.item",
                 placeholder: '<div class="placeholder"></div>',
                 delay: 300,
-                vertical: true
+                vertical: true,
+
+
+                //testando
+                isValidTarget: function ($item,container) {
+                    //console.log(container.target);
+                    return !($this.movingContainer && container.target.hasClass("subgroup"));
+                },
+
+                onDragStart: function ($item, container) {
+                    $item.css({height: $item.outerHeight(),width: $item.outerWidth()});
+                    $item.addClass(container.group.options.draggedClass);
+                    $("body").addClass(container.group.options.bodyClass);
+                    $this.movingContainer = $item.hasClass("sub-container");
+                }
             }
         };
         $this.params = $.extend(true, {}, defaultParams, params);
