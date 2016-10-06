@@ -11,5 +11,8 @@
     "dnd"
   ],
   "author": "Anderson Norberto Santos",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "grunt-contrib-copy": "^1.0.0"
+  }
 }

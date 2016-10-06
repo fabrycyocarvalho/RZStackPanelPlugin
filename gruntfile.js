@@ -23,13 +23,18 @@ module.exports = function (grunt) {
                         "dist/StackPanelPlugin.min.js": ['dist/StackPanelPlugin.js']
                     }
                 }
+            },
+            copy:{
+                vendor_jquery_sortable:{
+                    src: 'bower_components/jquery-sortable/source/js/jquery-sortable-min.js',
+                    dest: 'dist/vendor/jquery-sortable/jquery-sortable-min.js'
+                }
             }
         }
     );
 // Plugins do Grunt
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
-
-
-    grunt.registerTask('default', ['concat', 'uglify']);
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.registerTask('default', ['concat', 'uglify','copy']);
 };
