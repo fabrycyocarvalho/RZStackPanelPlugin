@@ -1,0 +1,46 @@
+@placeholder_color:greenyellow;
+@dragged_opacity:1;
+@deagged_zindex:2000;
+@placeholder_width:3px;
+
+body{
+  &.dragging, &.dragging *{
+    cursor: move !important;
+  }
+}
+
+.rutezangada-stack-panel-container{
+  .dragged {
+    position: absolute !important;
+    opacity: @dragged_opacity;
+    z-index: @deagged_zindex;
+    cursor: move !important;
+  }
+
+  .item {
+    &.dragged{
+      background: @placeholder_color !important;
+      cursor: move !important;
+    }
+    &.draggable{
+      cursor: move !important;
+    }
+    &.active{
+      .editing-tab-toolbox{
+        display: block;
+      }
+    }
+  }
+  .placeholder {
+    border: none;
+    background: @placeholder_color;
+    width: @placeholder_width;
+  }
+  &.rz-vertical-stackpanel{
+    .placeholder{
+      height: 40px;
+      width: 100%;
+    }
+  }
+
+}

@@ -8,48 +8,8 @@
     <script src="../bower_components/semantic/dist/semantic.min.js"></script>
     <script src="../bower_components/jquery-sortable/source/js/jquery-sortable-min.js"></script>
     <script src="../src/StackPanelPlugin.js"></script>
+    <link href="../dist/style/StackPanelPlugin.css" type="text/css" rel="stylesheet">
     <style>
-        body.dragging, body.dragging * {
-            cursor: move !important;
-        }
-
-        .dragged {
-            position: absolute !important;
-            opacity: 1;
-            z-index: 2000;
-            cursor: move !important;
-        }
-
-        .item.dragged {
-            background: greenyellow !important;
-            cursor: move !important;
-        }
-
-        .tab-design-container .placeholder {
-            border: none;
-            background: greenyellow;
-            width: 3px;
-        }
-
-        .ui.vertical.menu .placeholder {
-            height: 40px;
-            width: 100%;
-        }
-
-        .item.draggable {
-            cursor: move !important;
-        }
-
-        .editing-tab-toolbox {
-            margin-right: -10px;
-            margin-left: 20px;
-            display: none;
-        }
-
-        .item.active .editing-tab-toolbox {
-            display: block;
-        }
-
         .sub-container{
             border-left: solid 2px;
         }
@@ -61,16 +21,13 @@
     <div class="ui padded grid">
         <div class="one column row">
             <div class="column">
-                <!--BAGACERASTARTSHERE-->
-
-
-                <div id="hstackContainer" class="ui flat segment tab-design-container"></div>
-                <div id="vstackContainer" class="ui flat segment tab-design-container"></div>
+                <div id="hstackContainer" class="ui flat segment"></div>
+                <div id="vstackContainer" class="ui flat segment"></div>
 
                 <div class="ui form">
                     <div class="field">
-                        <label>Console</label>
-                        <textarea id="consoleTa"></textarea>
+                        <label for="consoleTa">Console</label>
+                        <textarea id="consoleTa" name="consoleTa"></textarea>
                     </div>
                 </div>
                 <br>

@@ -29,6 +29,21 @@ module.exports = function (grunt) {
                     src: 'bower_components/jquery-sortable/source/js/jquery-sortable-min.js',
                     dest: 'dist/vendor/jquery-sortable/jquery-sortable-min.js'
                 }
+            },
+            less:{
+                dev:{
+                    files: {
+                        'dist/style/StackPanelPlugin.css': 'src/style/style.less'
+                    }
+                },
+                prod:{
+                    options:{
+                        compress:true
+                    },
+                    files: {
+                        'dist/style/StackPanelPlugin.min.css': 'src/style/style.less'
+                    }
+                }
             }
         }
     );
@@ -36,5 +51,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.registerTask('default', ['concat', 'uglify','copy']);
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.registerTask('default', ['concat', 'uglify','copy','less']);
 };
