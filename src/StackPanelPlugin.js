@@ -118,20 +118,24 @@ rz.plugins.StackPanelPlugin = function(params){
         }
     };
 
-    this.addItem = function(itemData,customrender){
+    this.addItem = function(itemData,customrender,done){
+        done = rz.helpers.ensureFunction(done);
         var itemRenderer = resolveItemRenderer(customrender);
         var html = itemRenderer.render(itemData,$this);
         var el = $(html);
         plotItem(el);
         if(itemRenderer.initialize) itemRenderer.initialize(itemData,$this,el);
+        done($this,{element:el});
     };
 
-    this.insertItem = function(itemData,pos,customrender){
+    this.insertItem = function(itemData,pos,customrender,done){
+        done = rz.helpers.ensureFunction(done);
         var itemRenderer = resolveItemRenderer(customrender);
         var html = itemRenderer.render(itemData,$this);
         var el = $(html);
         plotItem(el,pos);
         if(itemRenderer.initialize) itemRenderer.initialize(itemData,$this,el);
+        done($this,{element:el});
     };
 
     this.removeItem = function(selector){
