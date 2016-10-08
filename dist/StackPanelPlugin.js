@@ -34,26 +34,23 @@ rz.plugins.StackPanelPlugin = function(params){
             itemRenderer: helpers.defaultitemRenderer,
             eventHandlers: helpers.defaultEventHandlers,
             stackItemClass: "draggable item",
-            sortParams:{
+            events:{
+                onDragStart:undefined
+            },
+            sortableParams:{
                 group: params.target.replace("#",""),
                 containerSelector: "div.tab-container",
                 itemSelector: "div.item",
                 placeholder: '<div class="placeholder"></div>',
                 delay: 300,
                 vertical: true,
-
-
-                //testando
-                isValidTarget: function ($item,container) {
-                    //console.log(container.target);
-                    return !($this.movingContainer && container.target.hasClass("subgroup"));
-                },
-
                 onDragStart: function ($item, container) {
                     $item.css({height: $item.outerHeight(),width: $item.outerWidth()});
                     $item.addClass(container.group.options.draggedClass);
                     $("body").addClass(container.group.options.bodyClass);
-                    $this.movingContainer = $item.hasClass("sub-container");
+                    if($this.params.events.onDragStart){
+                        $this.params.events.onDragStart($this,$item,container);
+                    }
                 }
             }
         };
@@ -80,7 +77,7 @@ rz.plugins.StackPanelPlugin = function(params){
         sb.appendFormat('</div>');
         $(params.target).html(sb.toString());
 
-        var p = params.sortParams;
+        var p = params.sortableParams;
         p.vertical = (params.orientation=="vertical");
 
         $("#" + params.baseID).sortable(p);
