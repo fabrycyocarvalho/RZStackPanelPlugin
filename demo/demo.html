@@ -57,7 +57,21 @@
 </body>
 <script>
     //vertical
-    var vparams = {target: "#vstackContainer"};
+    var vparams = {
+        target: "#vstackContainer",
+        events:{
+            onDragStart:function(sender,$item){
+                sender.movingContainer = $item.hasClass("sub-container");
+            }
+        },
+        sortableParams:{
+            isValidTarget: function (item, container) {
+                return !(vinstance.movingContainer && container.target.hasClass("subgroup"));
+            }
+        }
+    };
+
+
     var vinstance = new rz.plugins.StackPanelPlugin(vparams);
     vinstance.addItem("Item 1");
     vinstance.addItem("Item 2");
@@ -82,7 +96,7 @@
     });
 
     //horizontal:
-    var hparams = {target: "#hstackContainer", orientation: "horizontal"};
+   /* var hparams = {target: "#hstackContainer", orientation: "horizontal"};
     var hinstance = new rz.plugins.StackPanelPlugin(hparams);
     hinstance.addItem("Item 1");
     hinstance.addItem("Item 2");
@@ -93,7 +107,7 @@
             return '<div class="item"><h1>*</h1></div>'.replace("*", data);
         }
     });
-
+*/
     $("#addVItem").click(function () {
         eval($("#consoleTa").val());
     });
